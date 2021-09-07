@@ -1,5 +1,21 @@
+#This script downloads curl and uploads the given apk to browserstack app automate
+#HOW TO RUN
+#AppUpload2.ps1 -BROWSERSTACK_USERNAME YOUR_USERNAME_HERE -BROWSERSTACK_ACCESS_KEY YOUR_KEY_HERE
+#or 
+#AppUpload2.ps1 (it will ask for BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY if not provided)
+
+param(
+    [Parameter(Mandatory=$True, Position=0, ValueFromPipeline=$false)]
+    [System.String]
+    $BROWSERSTACK_USERNAME,
+
+    [Parameter(Mandatory=$True, Position=1, ValueFromPipeline=$false)]
+    [System.String]
+    $BROWSERSTACK_ACCESS_KEY
+)
+
 #Download curl.exe to Downloads 
-#Note can change the download location if needed
+#Note can change the download location of curl if needed
 $DownloadLoc = "$HOME\Downloads\"
 $FileName = "curl.zip"
 $uncompressed = "curl"
@@ -21,7 +37,7 @@ catch { Write-Host "File already exists"}
 Set-Location -Path $DownloadLoc\curl\curl-7.78.0-win64-mingw\bin
 
 #upload your apk to browserstack
-$user = "khalidshaikh_Cc8Pao:hxV3ZVmYkXGJXRbiyrvW"
+$user = $BROWSERSTACK_USERNAME+":"+$BROWSERSTACK_ACCESS_KEY
 $filePath = "D:\Khalid\Downloads\WikipediaSample.apk"
 $URL = "https://api-cloud.browserstack.com/app-automate/upload"
 
