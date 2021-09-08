@@ -26,19 +26,21 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 function Unzip
 {
     param([string]$zipfile, [string]$outpath)
-
     [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
 }
 try {
     Unzip $DownloadLoc$FileName $DownloadLoc$uncompressed
 }
-
-catch { Write-Host "File already exists"}
+#If the curl file already exists
+catch { Write-Host "Curl already exists"}
 Set-Location -Path $DownloadLoc\curl\curl-7.78.0-win64-mingw\bin
 
-#upload your apk to browserstack
+#upload your App to browserstack
+
 $user = $BROWSERSTACK_USERNAME+":"+$BROWSERSTACK_ACCESS_KEY
-$filePath = "D:\Khalid\Downloads\WikipediaSample.apk"
+#Path to your apk/ipa
+$filePath = "Path/To/Your/App"
 $URL = "https://api-cloud.browserstack.com/app-automate/upload"
 
+Write-Host "Uploading..."
 curl.exe -u "$user" -X POST "$URL" -F "file=@$filePath"
